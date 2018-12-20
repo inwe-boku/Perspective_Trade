@@ -1,8 +1,7 @@
-# Scripts for the Paper
+# A new perspective on global renewable energy systems: why trade in energy carriers matters - Scripts for the Paper
 
-A new perspective on global renewable energy systems: why trade in energy carriers matters
 by
-Johannes Schmidt, Katharina Gruber, Michael Klingler, Claude Klöckl, Luis Ramirez Camargo, Peter Regner, Olga Turkovska, Sebastian Wehrle, Elisabeth Wetterlund
+Johannes Schmidt, Katharina Gruber, Michael Klingler, Claude KlÃ¶ckl, Luis Ramirez Camargo, Peter Regner, Olga Turkovska, Sebastian Wehrle, Elisabeth Wetterlund
 https://refuel.world
 
 
