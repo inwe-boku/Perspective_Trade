@@ -39,8 +39,8 @@ share<-
       20)
 
 ### Costs of renewable fuel power production
-### Renewable fuel cost is 60, power conversion efficiency is 60%
-renewFuelPowerProduction<-60/0.6
+### Renewable fuel cost is 68 (WWS Methane), power conversion efficiency is 60%
+renewFuelPowerProduction<-68/0.6
 
 ################################### Plot final figure #################################################################
 
