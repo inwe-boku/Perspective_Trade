@@ -11,7 +11,7 @@ source("scripts/reFUEL_Functions.R")
 
 ### Read data from input file
 data<-
-  read_delim("data/reFUEL_Figure3_v3.csv",
+  read_delim("data/figure3_data.csv",
              delim=";") %>% 
   mutate(`0`=ifelse(is.na(`0`),0,`0`)) %>% 
   gather(RenewableShare,
@@ -48,6 +48,6 @@ f<-fig3(share,
         data,
         renewFuelPowerProduction)
 
-ggsave("figures_and_tables/Figure3.png")
+ggsave("figures/Figure3.png")
 
 

@@ -10,12 +10,12 @@ source("scripts/reFUEL_Functions.R")
 
 ### BP statistical review 2018
 download.file("https://www.bp.com/content/dam/bp/en/corporate/excel/energy-economics/statistical-review/bp-stats-review-2018-all-data.xlsx",
-              destfile="data/bp.xlsx",
+              destfile="data/bp_world_review.xlsx",
               mode="wb")
 
 ### Download areas of countries from worldbank
 download.file("http://api.worldbank.org/v2/en/indicator/AG.LND.TOTL.K2?downloadformat=excel",
-              destfile="data/API_AG.LND.TOTL.K2_DS2_en_excel_v2_10137425.xls",
+              destfile="data/worldbank_land_area.xls",
               mode="wb")
 
 ### Materials database
@@ -23,11 +23,9 @@ download.file("http://api.worldbank.org/v2/en/indicator/AG.LND.TOTL.K2?downloadf
 # no fully automatic download is possible (contact data has to be provided)
 # We selected all countries, national 13 category material flows,
 # oil, coal, and gas and PTB tonnes
-# Save file to data/material_flows_IV.csv
+# Save file to data/material_flows_database.csv
 
 ### IPCC-1.5C Report - Scenario Database
 # Automatic download not possible
 # Download data at https://data.ene.iiasa.ac.at/iamc-1.5c-explorer/#/downloads
-# save file to data/iamc15_scenario_data_all_regions_r1.xlsx
-
-
+# save file to data/ipcc_1_5D_database.xlsx

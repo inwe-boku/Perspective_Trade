@@ -8,18 +8,8 @@ source("scripts/reFUEL_Functions.R")
 
 ################################### Read input data #################################################################
 
-constants<-
-  read_delim("data/Input_Constants.csv",
-             delim=";",
-             skip = 2)
-
 country_in_file<-
-  "data/countries_ot_v5_1.xlsx"
-
-
-region_pop<-
-  read_excel("data/region_pop.xlsx",
-             1)
+  "data/figure2_countries_regions.xlsx"
 
 ################################### Calculate densities for aggregated world regions #################################
 
@@ -84,6 +74,6 @@ f<-
   fig2(ff_aggregate_regions,
        slope)
 
-ggsave("figures_and_tables/Figure2.png",f)
+ggsave("figures/Figure2.png",f)
 
 

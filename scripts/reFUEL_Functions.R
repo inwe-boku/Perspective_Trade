@@ -2,7 +2,6 @@
 
 ################## Libraries ######################################################################################
 
-library("openxlsx")
 library("tidyverse")
 library(stringr)
 library(zoo)
@@ -28,7 +27,7 @@ Fraction_to_Percent<-100
 
 
 constants<-
-  read_delim("data/Input_Constants.csv",
+  read_delim("data/constants.csv",
              delim=";",
              skip = 2)
 
@@ -55,7 +54,7 @@ conv_facts<-data.frame(Category=c("Coal",
 #' @param Scenarios Subset of model scenario combinations that should be selected
 #' @return a table with columns Year,Scenario,Model,Share. Share is the respective share 
 #'         of trade in international primary energy consumption.
-calculateShare<-function(tab,PrimEnVar,WorldRegionVar,TradeVar,Scenarios,reg_match){
+calculateShare<-function(tab,PrimEnVar,WorldRegionVar,TradeVar,Scenarios){
   
   
   
@@ -91,15 +90,7 @@ calculateShare<-function(tab,PrimEnVar,WorldRegionVar,TradeVar,Scenarios,reg_mat
   
   ### Regional aggregation
   tab_trade <- 
-    full_join(tab_trade,
-              reg_match) %>% 
-    group_by(Model,
-             Scenario,
-             Variable,
-             Unit,
-             Aggregate,Year) %>% 
-    summarize(Trade=sum(Trade,na.rm=TRUE)) %>% 
-    ungroup() %>%  
+    tab_trade %>% 
     mutate(Trade=ifelse(Trade>0,Trade,0)) %>% 
     group_by(Model,
              Scenario,
@@ -342,13 +333,12 @@ prepareTradeShareFigureAndPlot<-function(t1.5_data,material_flows_trade_share,ma
 
 #' Calculates trade shares in scenarios and plots final figure
 #' @param tab1.5                     the 1.5degree database
-#' @param reg_match                  table matching regions
 #' @param material_flows_trade_share: the observed trade shares from the materials database
 #' @param renewableShare             minimum share of renewables in scenarios
 #' @param year                       the year to assess the trade share
 #' @param maxDeviation               maximum deviation in percentage points from observed tradeshares in 2010/2015
 #' @return Figure to be plotted
-fig1<-function(tab1.5,reg_match,material_flows_trade_share,renewableShare,year,maxDeviation){
+fig1<-function(tab1.5,material_flows_trade_share,renewableShare,year,maxDeviation){
   
   ### Select renewable scenarios from database
   scenarios_1.5<-
@@ -360,9 +350,7 @@ fig1<-function(tab1.5,reg_match,material_flows_trade_share,renewableShare,year,m
                    "Primary Energy",
                    "World",
                    "^Trade",
-                   scenarios_1.5,
-                   reg_match %>% 
-                     filter(ModelGroup=="IPCC_1.5C"))
+                   scenarios_1.5)
  
   
   ###################################PREPARE TRADE SHARE DATA AND PLOT###################################
@@ -383,7 +371,7 @@ fig1<-function(tab1.5,reg_match,material_flows_trade_share,renewableShare,year,m
 readBPCountry<-function(sheet,var,countries){
   
   ec <- 
-    read_excel(path=paste0("data/bp.xlsx"),
+    read_excel(path=paste0("data/bp_world_review.xlsx"),
                sheet=sheet)
   
   ### Select only relevant columns (country names and first until last year)
@@ -437,7 +425,7 @@ readBPCountry<-function(sheet,var,countries){
 readGlobalEnergyConsumptionEJ<-function(){
   
  
-  bp_report<-read.xlsx("data/bp.xlsx",sheet="Primary Energy Consumption") %>% 
+  bp_report<-read.xlsx("data/bp_world_review.xlsx",sheet="Primary Energy Consumption") %>% 
     slice(2:n()) %>%  as_tibble()
   
   ### Adapt row names and cut matrix
@@ -471,8 +459,7 @@ readGlobalEnergyConsumptionEJ<-function(){
 }
 
 #' reads material flows database
-#' aggregate to regions according to ROSE
-#' aggregate ROSE regions to paper regions
+#' aggregate to regions according to IPPC 1.5D Database
 #' @param reg_match paper regions
 #' @return aggregated materials flow database
 
@@ -480,7 +467,7 @@ readMaterialFlowsEJ<-function(reg_match) {
   
   ### Read data from file
   material_flows<-
-    read.table("data/material_flows_IV.csv",
+    read.table("data/material_flows_database.csv",
                sep=",",
                header=TRUE) %>% 
     as_tibble() %>% 
@@ -498,7 +485,7 @@ readMaterialFlowsEJ<-function(reg_match) {
   
   ### Delete regional aggregations
   ### as we come up with our own aggregation consistent with
-  ### the ROSE dataset
+  ### the IPPC 1.5D dataset
   material_flows<-
     material_flows %>% 
     filter(!(Country %in% c("Africa",
@@ -517,35 +504,22 @@ readMaterialFlowsEJ<-function(reg_match) {
     mutate(FlowsTonnes=Flows,
            Flows=Flows*Conv)
   
-  ### Regional aggregation according to ROSE
+  ### Regional aggregation according to IPCC_1.5D
   material_flows_regions<-
     full_join(material_flows,
               reg_match_materials_flows) %>% 
-    group_by(Region_Cherp,
+    group_by(IPCC_1.5D,
              Category,
              Flow.Type,
              Year) %>% 
     summarise(Flows=sum(Flows,
                         na.rm=TRUE)) %>% 
-    filter(!(Region_Cherp %in% c("NA")))
-  
-  ### Macro_regions_ROSE to continents
-  material_flows_regions_<-
-    full_join(material_flows_regions,
-              reg_match %>% 
-                filter(ModelGroup=="Materials_Database"),
-              by=c("Region_Cherp"="Region")) %>% 
-    group_by(Aggregate,
-             Year,
-             Category,
-             Flow.Type) %>% 
-    summarise(Flows=sum(Flows,
-                        na.rm=TRUE))
+    filter(!(IPCC_1.5D %in% c("NA")))
   
   ### Determine sum of imports and convert to EJ
   
   material_flows_tot_trade<-
-    material_flows_regions_ %>% 
+    material_flows_regions %>% 
     mutate(Flows=ifelse(Flows>0,
                         Flows,
                         0)) %>% 
@@ -582,7 +556,7 @@ calculateDataFigure2<-function(bp_countries,world_bank_countries){
   
   ### Read country area from world bank data 
   area1 <- 
-    read_excel(path="data/API_AG.LND.TOTL.K2_DS2_en_excel_v2_10137425.xls",
+    read_excel(path="data/worldbank_land_area.xls",
                sheet=1)
   
   ### Select only relevant parts

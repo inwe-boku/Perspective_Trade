@@ -7,16 +7,11 @@ setwd(paste0(scriptDir,"/../"))
 
 source("scripts/reFUEL_Functions.R")
 
-###################################Read Constants#####################################################################
-constants<-read_delim("data/Input_Constants.csv",delim=";",skip = 2)
+################################### Read Constants ####################################################################
 
 reg_match_materials_flows<-
-  read.xlsx("data/region_match_bp_material_flow.xlsx") %>% 
+  read_excel("data/figure1_countries_regions.xlsx") %>% 
   as_tibble()
-
-reg_match<-
-  read_delim("data/regional_matching_1.csv",delim=";") %>% 
-  gather(ModelGroup,Region,-Aggregate) %>% na.omit()
 
 ################################### Read Input Data ##################################################################
 
@@ -29,7 +24,7 @@ material_flows_tot_trade<-readMaterialFlowsEJ(reg_match)
 #######IPCC-1.5C Report
 ###scenarios are defined in reFUEL_Functions.R
 if(!exists("tab1.5")) {
-  tab1.5<-read.xlsx("data/iamc15_scenario_data_all_regions_r1.xlsx",sheet=2) %>% 
+  tab1.5<-read_excel("data/ipcc_1_5D_database.xlsx",sheet=2) %>% 
     as_tibble()
 }
 
@@ -49,10 +44,9 @@ year_of_renewable_share<-2100
 max_deviation_2010<-0.05
 
 f<-fig1(tab1.5,
-        reg_match,
         material_flows_trade_share,
         minimum_renewable_share,
         year_of_renewable_share,
         max_deviation_2010)
 
-ggsave("figures_and_tables/Figure1.png",f)
+ggsave("figures/Figure1.png",f)
