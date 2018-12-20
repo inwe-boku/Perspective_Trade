@@ -315,7 +315,7 @@ prepareTradeShareFigureAndPlot<-function(t1.5_data,material_flows_trade_share,ma
     xlab("Year")+
     ylab("Trade Share (%)")+
     theme(text = element_text(size=17),
-          legend.position=c(0.165,0.21),
+          legend.position=c(0.17,0.21),
           axis.title.y = element_text(margin = margin(t = 0,
                                                       r = 20, 
                                                       b = 0, 
