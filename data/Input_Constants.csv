@@ -1,0 +1,8 @@
+Input Constants for Scripts;;;
+;;;
+Parameter;Value;Source 1;Source 2
+Tonne.Natural.Gas_to_Terajoule;0.055555556;technical annex http://www.resourcepanel.org/global-material-flows-database;
+T.o.e._to_Terajoule;0.041868;https://www.iea.org/statistics/resources/unitconverter/;
+T.of.coal_to_Terajoule;0.0293076;https://www.iea.org/statistics/resources/unitconverter/;
+Barrel.Day_to_Teraoule;2.085026400; https://www.bp.com/content/dam/bp/en/corporate/pdf/energy-economics/statistical-review-2017/bp-statistical-review-of%20world%20energy-2017-approximate-conversion-factors.pdf;https://www.iea.org/statistics/resources/unitconverter/
+T.o.e._to_GWh;0.012;;

@@ -1,0 +1,13 @@
+Aggregate;Materials_Database;ROSE;LIMITS;GEA;MCCOLLUM;IPCC_1.5C
+Africa & Middle East;AFR;AFR;Africa;AFR;R5MAF;R5MAF
+Africa & Middle East;MEA;MEA;Middle East;MEA;;
+Asia;CHN;CHN;China;CPA;;
+Asia;IND;IND;India;PAO;R5ASIA;R5ASIA
+Asia;JPN;JPN;Pacific OECD;PAS;;
+Asia;OAS;OAS;Rest of Asia;SAS;;
+FSU;FSU;FSU;Reforming Economies;FSU;;R5REF
+Europe + North America;EUR;EUR;Europe;EEU;R5OECD90+EU;R5OECD90+EU
+Europe + North America;USA;USA;US/North America;WEU;;
+Europe + North America;;;;NAM;;
+Latin America;LAM;LAM;Latin America;LAM;R5LAM;R5LAM
+Rest of World;ROW;ROW;Rest of World;;;R5ROWO
