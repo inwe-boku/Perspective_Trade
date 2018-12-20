@@ -425,7 +425,7 @@ readBPCountry<-function(sheet,var,countries){
 readGlobalEnergyConsumptionEJ<-function(){
   
  
-  bp_report<-read.xlsx("data/bp_world_review.xlsx",sheet="Primary Energy Consumption") %>% 
+  bp_report<-read_excel("data/bp_world_review.xlsx",sheet="Primary Energy Consumption") %>%
     slice(2:n()) %>%  as_tibble()
   
   ### Adapt row names and cut matrix
