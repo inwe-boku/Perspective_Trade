@@ -21,7 +21,7 @@ global_consumption_bp<-readGlobalEnergyConsumptionEJ()
 ###read material flows database and calculate trade
 material_flows_tot_trade<-readMaterialFlowsEJ(reg_match)
 
-#######IPCC-1.5C Report
+#######IPCC-1.5D Report
 ###scenarios are defined in reFUEL_Functions.R
 if(!exists("tab1.5")) {
   tab1.5<-read_excel("data/ipcc_1_5D_database.xlsx",sheet=2) %>% 
