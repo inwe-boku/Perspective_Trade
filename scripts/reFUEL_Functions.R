@@ -634,9 +634,8 @@ calculateDataFigure2<-function(bp_countries,world_bank_countries){
 #' Generates Figure 2
 #' @param ff_aggregate_regions Data for plot including regions and energy/generation densities
 #'                             and shares in area and demand
-#' @param slope Slope of linear regression between energy use density and generation density
 #' @return figure object                             
-fig2<-function(ff_aggregate_regions,slope){
+fig2<-function(ff_aggregate_regions){
   
   f<-
     ff_aggregate_regions_reg %>% 
@@ -654,8 +653,6 @@ fig2<-function(ff_aggregate_regions,slope){
                     vjust=0,
                     force=40,
                     max.iter=20000)+
-    geom_abline(slope=slope,
-                linetype=2)+
     ylab(bquote("WWS generation per area (MWh (km"^"-2"*"a"^-1*"))")) +
     xlab(bquote("Primary energy use per area (MWh (km"^"-2"*"a"^-1*"))")) +
     scale_size_area(max_size=10) +

@@ -64,15 +64,9 @@ ff_aggregate_regions_reg<-
             by=c("Aggregate_Region"="Region")) %>% 
   na.omit()
 
-################################### Calculate slope of linear regression #############################################
-slope<-
-  lm(ff_aggregate_regions_reg$GenPerAreaRen~ff_aggregate_regions_reg$DemandPerArea+0)$coefficients
-
-
 ################################### Plot final figure ################################################################
 f<-
-  fig2(ff_aggregate_regions,
-       slope)
+  fig2(ff_aggregate_regions)
 
 ggsave("figures/Figure2.png",f)
 
