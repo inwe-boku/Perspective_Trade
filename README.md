@@ -13,7 +13,13 @@ First run 00_reFUEL_Download.R to download necessary files and read the instruct
 
 # Requirements
 
-sudo apt install r-base r-cran-formatr r-cran-shiny r-cran-rstudioapi r-cran-readxl r-cran-openxlsx r-cran-rlang r-cran-zoo libudunits2-dev libgeos-dev r-cran-raster libgdal-dev libgdal-dev littler libxml2-dev libcurl4-openssl-dev libssl-dev
+The easiest way to install the requirements in Ubuntu/Debian or a similar Debian derivative is to run the following command:
 
-install.packages("tidyverse")
-install.packages("ggrepel")
+    $ sudo apt install r-base r-cran-formatr r-cran-shiny r-cran-rstudioapi r-cran-readxl r-cran-openxlsx r-cran-rlang r-cran-zoo libudunits2-dev libgeos-dev r-cran-raster libgdal-dev libgdal-dev littler libxml2-dev libcurl4-openssl-dev libssl-dev
+
+Then install two more packages using the R package manager in an R prompt:
+
+    > install.packages("tidyverse")
+    > install.packages("ggrepel")
+
+Tested using Xubuntu 18.10, minor adaptations might be necessary for a different OS/version.
