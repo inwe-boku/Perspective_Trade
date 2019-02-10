@@ -463,7 +463,7 @@ readGlobalEnergyConsumptionEJ<-function(){
 #' @param reg_match paper regions
 #' @return aggregated materials flow database
 
-readMaterialFlowsEJ<-function(reg_match) {
+readMaterialFlowsEJ<-function(reg_match_materials_flows) {
   
   ### Read data from file
   material_flows<-
