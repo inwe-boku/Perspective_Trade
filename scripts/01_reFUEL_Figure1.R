@@ -19,7 +19,7 @@ reg_match_materials_flows<-
 global_consumption_bp<-readGlobalEnergyConsumptionEJ()
 
 ###read material flows database and calculate trade
-material_flows_tot_trade<-readMaterialFlowsEJ(reg_match)
+material_flows_tot_trade<-readMaterialFlowsEJ(reg_match_materials_flows)
 
 #######IPCC-1.5D Report
 ###scenarios are defined in reFUEL_Functions.R
