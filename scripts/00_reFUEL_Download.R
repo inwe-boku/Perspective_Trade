@@ -9,7 +9,7 @@ source("scripts/reFUEL_Functions.R")
 ################################### Download data ###################################################################
 
 ### BP statistical review 2018
-download.file("https://www.bp.com/content/dam/bp/en/corporate/excel/energy-economics/statistical-review/bp-stats-review-2018-all-data.xlsx",
+download.file("https://www.bp.com/content/dam/bp/business-sites/en/global/corporate/xlsx/energy-economics/statistical-review/bp-stats-review-2018-all-data.xlsx",
               destfile="data/bp_world_review.xlsx",
               mode="wb")
 
