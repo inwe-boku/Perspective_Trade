@@ -331,6 +331,62 @@ prepareTradeShareFigureAndPlot<-function(t1.5_data,material_flows_trade_share,ma
     
 }
 
+readMaterialFlowsEJCountries<-function() {
+  
+  ### Read data from file
+  material_flows<-
+    read.table("data/material_flows_database.csv",
+               sep=",",
+               header=TRUE) %>% 
+    as_tibble() %>% 
+    gather(Year,
+           Flows,
+           -Country,
+           -Category,
+           -Flow.Type) %>% 
+    mutate(Year=as.numeric(substr(Year,
+                                  2,
+                                  100))) %>% 
+    mutate(Country=as.character(Country),
+           Category=as.character(Category),
+           Flow.Type=as.character(Flow.Type)) 
+  
+  ### Delete regional aggregations
+  ### as we come up with our own aggregation consistent with
+  ### the IPPC 1.5D dataset
+  material_flows<-
+    material_flows %>% 
+    filter(!(Country %in% c("Africa",
+                            "EECCA",
+                            "Europe",
+                            "World",
+                            "Asia + Pacific",
+                            "West Asia",
+                            "North America",
+                            "Latin America + Caribbean")))
+  
+  ### Convert to TJ
+  material_flows<-
+    full_join(material_flows,
+              conv_facts) %>% 
+    mutate(FlowsTonnes=Flows,
+           Flows=Flows*Conv)
+  
+  ### Regional aggregation according to IPCC_1.5D
+  ### convert TJ_to_EJ
+  material_flows_regions<-
+    #full_join(material_flows,
+    #          reg_match_materials_flows) %>% 
+    #group_by(IPCC_1.5D,
+    #         Category,
+    #        Flow.Type,
+    #         Year) %>% 
+    material_flows %>% 
+    mutate(Flows=Flows*TJ_to_EJ) 
+  return(material_flows_regions)
+}
+
+
 #' Calculates trade shares in scenarios and plots final figure
 #' @param tab1.5                     the 1.5degree database
 #' @param material_flows_trade_share: the observed trade shares from the materials database
@@ -465,6 +521,30 @@ readGlobalEnergyConsumptionEJ<-function(){
 
 readMaterialFlowsEJ<-function(reg_match_materials_flows) {
   
+  material_flows_regions<-readMaterialFlowsTJRegions(reg_match_materials_flows)
+  
+  ### Determine sum of imports and convert to EJ
+  
+  material_flows_tot_trade<-
+    material_flows_regions %>% 
+    mutate(Flows=ifelse(Flows>0,
+                        Flows,
+                        0)) %>% 
+    group_by(Year) %>% 
+    summarise(Tot_trade=sum(Flows)*TJ_to_EJ)
+  
+  return(material_flows_tot_trade)
+  
+}
+
+#' reads material flows database
+#' aggregate to regions according to IPPC 1.5D Database
+#' return data per region and fuel
+#' @param reg_match paper regions
+#' @return aggregated materials flow database
+
+readMaterialFlowsTJRegions<-function(reg_match_materials_flows) {
+  
   ### Read data from file
   material_flows<-
     read.table("data/material_flows_database.csv",
@@ -516,18 +596,9 @@ readMaterialFlowsEJ<-function(reg_match_materials_flows) {
                         na.rm=TRUE)) %>% 
     filter(!(IPCC_1.5D %in% c("NA")))
   
-  ### Determine sum of imports and convert to EJ
+  return(material_flows_regions)
   
-  material_flows_tot_trade<-
-    material_flows_regions %>% 
-    mutate(Flows=ifelse(Flows>0,
-                        Flows,
-                        0)) %>% 
-    group_by(Year) %>% 
-    summarise(Tot_trade=sum(Flows)*TJ_to_EJ)
-  
-  return(material_flows_tot_trade)
-  
+
 }
 
 #' Calculates data for figure 2 in the paper.
