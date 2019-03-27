@@ -706,28 +706,35 @@ calculateDataFigure2<-function(bp_countries,world_bank_countries){
 #' @param ff_aggregate_regions Data for plot including regions and energy/generation densities
 #'                             and shares in area and demand
 #' @return figure object                             
-fig2<-function(ff_aggregate_regions){
+fig2<-function(ff_aggregate_regions_reg){
   
   f<-
     ff_aggregate_regions_reg %>% 
     dplyr::select(DemandPerArea,GenPerAreaRen, 
                   `Share of global\nenergy use (%)`=DemandShare,
                   `Share of global\nland area (%)`=AreaShare,
-                  `Full name`) %>% 
+                  `Full name`,
+                  Abbreviation,
+                  FA) %>% 
     ggplot(aes(x=DemandPerArea,
                y=GenPerAreaRen))+ 
-    geom_point(aes(col=`Share of global\nland area (%)`,
-                   size=`Share of global\nenergy use (%)`)) +
-    geom_text_repel(aes(label=`Full name`),
-                    size=3,
+    geom_point(aes(size=`Share of global\nland area (%)`,
+                   fill=`Share of global\nenergy use (%)`),
+               pch=22,col="black") +
+    #geom_text_repel(aes(label=`Full name`),
+    geom_text_repel(aes(label=FA),
+    
+                    size=4,
                     hjust=0, 
                     vjust=0,
-                    force=40,
-                    max.iter=20000)+
+                    force=10,
+                    max.iter=200000,
+                    nudge_y=10,
+                    nudge_x=5)+
     ylab(bquote("WWS generation per area (MWh (km"^"-2"*"a"^-1*"))")) +
     xlab(bquote("Primary energy use per area (MWh (km"^"-2"*"a"^-1*"))")) +
     scale_size_area(max_size=10) +
-    scale_colour_gradient(high=colorsERC3[1],
+    scale_fill_gradient(high=colorsERC3[1],
                           low=colorsERC3[3])+
     theme(text = element_text(size=17),
           axis.title.y = element_text(margin = margin(t = 0, r = 20, b = 0, l = 0)),

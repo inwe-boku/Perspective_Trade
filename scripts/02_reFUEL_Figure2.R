@@ -65,8 +65,9 @@ ff_aggregate_regions_reg<-
   na.omit()
 
 ################################### Plot final figure ################################################################
+
 f<-
-  fig2(ff_aggregate_regions)
+  fig2(ff_aggregate_regions_reg)
 
 ggsave("figures/Figure2.png",f)
 
