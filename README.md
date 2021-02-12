@@ -23,3 +23,5 @@ Then install two more packages using the R package manager in an R prompt:
     > install.packages("ggrepel")
 
 Tested using Xubuntu 18.10, minor adaptations might be necessary for a different OS/version.
+
+We gratefully acknowledge support from the European Research Council (“reFUEL” ERC2017-STG 758149).
